@@ -26,7 +26,6 @@ import './public/css/font-awesome.min.css';
 import './public/css/media-queries.css';
 
 
-
 // Import root app
 import App from 'containers/App';
 
