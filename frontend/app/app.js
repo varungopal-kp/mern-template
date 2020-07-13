@@ -17,15 +17,15 @@ import FontFaceObserver from 'fontfaceobserver';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
+import './public/css/bootstrap.min.css';
+
+import './public/css/style.css';
+
+import './public/css/font-awesome.min.css';
+
+import './public/css/media-queries.css';
 
 
-import "./public/css/bootstrap.min.css" ;
-
-import "./public/css/style.css";
-
-import "./public/css/font-awesome.min.css";
-
-import "./public/css/media-queries.css" ;
 
 // Import root app
 import App from 'containers/App';
@@ -37,7 +37,7 @@ import LanguageProvider from 'containers/LanguageProvider';
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess'; // eslint-disable-line import/extensions
 
-import configureStore from './configureStore'; 
+import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
