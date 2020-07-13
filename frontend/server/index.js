@@ -37,7 +37,7 @@ app.get('*.js', (req, res, next) => {
 
 // Start your app.
 app.listen(port, host, async err => {
-  console.log('varun')
+  
   if (err) {
     return logger.error(err.message);
   }
