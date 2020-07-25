@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { styles } from './style';
 export class MapContainer extends Component {
@@ -10,6 +10,7 @@ export class MapContainer extends Component {
       selectedPlace: {},
     };
   }
+
   onMarkerClick = (props, marker, e) =>
     this.setState({
       selectedPlace: props,
@@ -33,29 +34,32 @@ export class MapContainer extends Component {
       ['Ras Abu', 24.5753801, 51.45524, 3],
       ['Buraydah', 26.3476129, 43.7833376, 1],
     ];
-    
+
     return (
-      <Map google={this.props.google} zoom={7} styles={styles} initialCenter= {{lat: 25.1813883, lng: 49.0172562}}>
-          {feplaces.map(_map=>( 
-            <Marker
-          onClick={this.onMarkerClick}
-          name={_map[0]}
-          icon={{
-            url:
-              'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-            size: new google.maps.Size(20, 32),
+      <Map
+        google={this.props.google}
+        zoom={7}
+        styles={styles}
+        initialCenter={{ lat: 25.1813883, lng: 49.0172562 }}
+      >
+        {feplaces.map((_map, i) => (
+          <Marker
+            onClick={this.onMarkerClick}
+            name={_map[0]}
+            icon={{
+              url:
+                'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+              size: new google.maps.Size(20, 32),
 
-            origin: new google.maps.Point(0, 0),
+              origin: new google.maps.Point(0, 0),
 
-            anchor: new google.maps.Point(0, 32),
-          }}
-          position={{lat:_map[1],lng:_map[2]}}
-          zIndex= {_map[3]}
-        />
-           ) )}
-        
+              anchor: new google.maps.Point(0, 32),
+            }}
+            position={{ lat: _map[1], lng: _map[2] }}
+            zIndex={_map[3]}
+          />
+        ))}
 
-        
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
@@ -67,7 +71,7 @@ export class MapContainer extends Component {
                   <h3>Place Details</h3>
                 </div>
                 <div className="img-box">
-                  <img src={require("../../public/images/map-sample.png")} />
+                  <img src={require('../../public/images/map-sample.png')} />
                 </div>
                 <div className="dtls">
                   <h4 className="name">Morocco</h4>

@@ -1,15 +1,21 @@
 import React from 'react';
 
-export default function select({ input, name, options }) {
+export default function select({ input, name, options, placeholder }) {
   return (
     <select
       {...input}
       name={name}
       onChange={e => input.onChange(e.target.value)}
     >
-      <option disabled>Select</option>
+      <option value=""  disabled>
+        {placeholder || 'Select'}
+      </option>
       {options &&
-        options.map((_a,i) => <option id={i} value={_a.value}>{_a.label}</option>)}
+        options.map((_a, i) => (
+          <option key={i} value={_a.value}>
+            {_a.label}
+          </option>
+        ))}
     </select>
   );
 }

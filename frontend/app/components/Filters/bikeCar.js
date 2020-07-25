@@ -3,8 +3,8 @@ import { Field, reduxForm } from 'redux-form';
 import Input from 'components/Fields/input';
 import Date from 'components/Fields/date';
 import Select from 'components/Fields/select';
-import moment from 'moment'
-export function bikeCar({ handleSubmit }) {
+import moment from 'moment';
+export function bikeCar({ handleSubmit, cityOptions }) {
   const typeOptions = [
     { label: 'Both', value: 'both' },
     { label: 'Car', value: 'car' },
@@ -29,9 +29,10 @@ export function bikeCar({ handleSubmit }) {
               <label>Country/City</label>
               <Field
                 name="city"
-                component={Input}
+                component={Select}
                 type="text"
                 placeholder="Country/City"
+                options={cityOptions || []}
               />
               <span />
             </li>
@@ -107,7 +108,7 @@ export function bikeCar({ handleSubmit }) {
 
           <ul className="btn-right">
             <li className="col-md-4 col-xs-8">
-              <button type="submit"  className="btn btnFilter">
+              <button type="submit" className="btn btnFilter">
                 Filter
               </button>
             </li>
@@ -120,6 +121,6 @@ export function bikeCar({ handleSubmit }) {
 export default reduxForm({
   form: 'bikeCarFilterForm',
   initialValues: {
-    type: 'both',    
+    type: 'both',
   },
 })(bikeCar);

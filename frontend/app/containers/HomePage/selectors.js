@@ -7,13 +7,11 @@ import { initialState } from './reducer';
 
 const selectHomePageDomain = state => state.homePage || initialState;
 
-/**
- * Other specific selectors
- */
-
-/**
- * Default selector used by HomePage
- */
+const makeSelectPageState = () =>
+  createSelector(
+    selectHomePageDomain,
+    substate => substate.toJS(),
+  );
 
 const makeSelectHomePage = () =>
   createSelector(
@@ -22,4 +20,4 @@ const makeSelectHomePage = () =>
   );
 
 export default makeSelectHomePage;
-export { selectHomePageDomain };
+export { selectHomePageDomain, makeSelectPageState };

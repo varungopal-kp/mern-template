@@ -1,6 +1,41 @@
-// import { take, call, put, select } from 'redux-saga/effects';
+import { take, call, put, select, takeLatest } from 'redux-saga/effects';
+import axios from 'axios';
+import { getCitySucess, getCityFailure } from './actions';
+import { GET_CITY } from './constants';
 
-// Individual exports for testing
+const apiURL = `${process.env.API_BASE_URL}`;
+
+export function* getCityCall() {
+  try {
+    const repos = yield axios
+      .post(`${apiURL}`, {
+        query: `
+        {
+          cities{
+             _id
+             name
+            }
+        }
+        `,
+      })
+
+      .then(response => {
+        if (response.data) {
+          const { data } = response.data;
+          return data;
+        }
+        return {};
+      })
+
+      .catch(error => {
+        console.error(error);
+      });
+    yield put(getCitySucess(repos));
+  } catch (err) {
+    yield put(getCityFailure(err));
+  }
+}
+
 export default function* homePageSaga() {
-  // See example in containers/HomePage/saga.js
+  yield takeLatest(GET_CITY, getCityCall);
 }

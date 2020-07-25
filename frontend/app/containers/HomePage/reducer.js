@@ -3,18 +3,22 @@
  * HomePage reducer
  *
  */
-import produce from 'immer';
-import { DEFAULT_ACTION } from './constants';
 
-export const initialState = {};
+import { fromJS } from 'immutable';
+import { GET_CITY_SUCCESS } from './constants';
 
-/* eslint-disable default-case, no-param-reassign */
-const homePageReducer = (state = initialState, action) =>
-  produce(state, (/* draft */) => {
-    switch (action.type) {
-      case DEFAULT_ACTION:
-        break;
-    }
-  });
+export const initialState = fromJS({
+  cities: [],
+});
+
+function homePageReducer(state = initialState, action) {
+  switch (action.type) {
+    case GET_CITY_SUCCESS:
+      return state.set('cities', action.payload.cities);
+
+    default:
+      return state;
+  }
+}
 
 export default homePageReducer;
