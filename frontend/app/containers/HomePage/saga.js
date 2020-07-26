@@ -1,7 +1,14 @@
-import { take, call, put, select, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
-import { getCitySucess, getCityFailure } from './actions';
-import { GET_CITY } from './constants';
+import { put, takeLatest } from 'redux-saga/effects';
+import {
+  getCityFailure,
+  getCitySucess,
+  getTourSucess,
+  getTourFailure,
+  getMapSucess,
+  getMapFailure,
+} from './actions';
+import { GET_CITY, GET_TOUR, GET_MAP } from './constants';
 
 const apiURL = `${process.env.API_BASE_URL}`;
 
@@ -36,6 +43,82 @@ export function* getCityCall() {
   }
 }
 
+export function* getTourCall() {
+  try {
+    const repos = yield axios
+      .post(`${apiURL}`, {
+        query: `
+        {
+          tours{
+            name
+            image
+            description
+            price
+            star
+          }
+        }
+        `,
+      })
+
+      .then(response => {
+        if (response.data) {
+          const { data } = response.data;
+          return data;
+        }
+        return {};
+      })
+
+      .catch(error => {
+        console.error(error);
+      });
+    yield put(getTourSucess(repos));
+  } catch (err) {
+    yield put(getTourFailure(err));
+  }
+}
+
+export function* getMapCall({ payload }) {
+  const params = JSON.stringify(JSON.stringify(payload));
+  try {
+    const repos = yield axios
+      .post(`${apiURL}`, {
+        query: `
+        {
+          tours(params:${params}){
+            name
+            image
+            description
+            price
+            star
+            lat
+            lon
+            city{
+              name
+            }
+          }
+        }
+        `,
+      })
+
+      .then(response => {
+        if (response.data) {
+          const { data } = response.data;
+          return data;
+        }
+        return {};
+      })
+
+      .catch(error => {
+        console.error(error);
+      });
+    yield put(getMapSucess(repos));
+  } catch (err) {
+    yield put(getMapFailure(err));
+  }
+}
+
 export default function* homePageSaga() {
   yield takeLatest(GET_CITY, getCityCall);
+  yield takeLatest(GET_TOUR, getTourCall);
+  yield takeLatest(GET_MAP, getMapCall);
 }

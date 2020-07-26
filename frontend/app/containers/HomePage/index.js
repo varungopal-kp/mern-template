@@ -16,7 +16,9 @@ import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import { makeSelectPageState } from './selectors';
-import { getCity } from './actions';
+import { getCity, getTour, getMap } from './actions';
+
+const baseUrl = process.env.BASE_URL;
 
 export class HomePage extends React.PureComponent {
   constructor(props) {
@@ -30,6 +32,8 @@ export class HomePage extends React.PureComponent {
 
   render() {
     const { homePage } = this.props;
+    const { tours } = homePage;
+    const { map } = homePage;
     let cityOptions = [];
 
     if (homePage.cities) {
@@ -38,7 +42,7 @@ export class HomePage extends React.PureComponent {
         value: _a._id,
       }));
     }
-   
+
     return (
       <>
         <Helmet>
@@ -46,301 +50,103 @@ export class HomePage extends React.PureComponent {
           <meta name="description" content="Description of HomePage" />
         </Helmet>
         <section id="map" className="map">
-          <Map />
+          <Map mapData={map} getMap={params => this.props.getMap(params)} />
         </section>
         <Filter cityOptions={cityOptions} />
         <section className="featured">
           <div className="container">
             <h2 className="heading">Featured Places</h2>
 
-            <OwlCarousel
-              className="owl-carousel owl-theme"
-              loop
-              margin={10}
-              nav
-            >
-              <div className="item">
-                <div className="item-inn">
-                  <figure>
-                    <img src={require('../../public/images/featured/1.png')} />
-                  </figure>
-                  <p className="item-price">$ 575.00</p>
+            {tours.length && (
+              <OwlCarousel
+                className="owl-carousel owl-theme"
+                loop
+                margin={10}
+                nav
+              >
+                {tours.map(_a => (
+                  <React.Fragment>
+                    <div className="item">
+                      <div className="item-inn">
+                        <figure>
+                          <img src={`${baseUrl}${_a.image}`} alt={_a.name} />
+                        </figure>
+                        <p className="item-price">$ {_a.price}</p>
 
-                  <div className="item-cntnt">
-                    <h3>Grand Switzerland</h3>
+                        <div className="item-cntnt">
+                          <h3>{_a.name}</h3>
 
-                    <div className="star-ratings-css">
-                      <div className="star-ratings-css-top">
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span />
-                      </div>
-                      <div className="star-ratings-css-bottom">
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                      </div>
-                    </div>
+                          <div className="star-ratings-css">
+                            <div className="star-ratings-css-top">
+                              {[...Array(+_a.star)].map(() => (
+                                <span>
+                                  <i
+                                    className="fa fa-star"
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                              ))}
+                            </div>
+                            <div className="star-ratings-css-bottom">
+                              <span>
+                                <i
+                                  className="fa fa-star-o"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                              <span>
+                                <i
+                                  className="fa fa-star-o"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                              <span>
+                                <i
+                                  className="fa fa-star-o"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                              <span>
+                                <i
+                                  className="fa fa-star-o"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                              <span>
+                                <i
+                                  className="fa fa-star-o"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                            </div>
+                          </div>
 
-                    <p>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.Lorem Ipsum has been since.
-                    </p>
-                    <ul className="row">
-                      <li className="col-xs-12">
-                        <a
-                          href=""
-                          type="button"
-                          className="btn book-btn"
-                          data-toggle="modal"
-                          data-target=".booking-modal"
-                        >
-                          Book Now
-                        </a>
-                      </li>
-                      <li className="col-xs-12">
-                        <a href="" className="btn">
-                          View Details
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div className="item">
-                <div className="item-inn">
-                  <figure>
-                    <img src={require('../../public/images/featured/2.png')} />
-                  </figure>
-                  <p className="item-price">$ 600.00</p>
-
-                  <div className="item-cntnt">
-                    <h3>Discover Japan</h3>
-
-                    <div className="star-ratings-css">
-                      <div className="star-ratings-css-top">
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-half-o" aria-hidden="true" />
-                        </span>
-                        <span />
-                      </div>
-                      <div className="star-ratings-css-bottom">
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
+                          <p>{_a.description}</p>
+                          <ul className="row">
+                            <li className="col-xs-12">
+                              <a
+                                href=""
+                                type="button"
+                                className="btn book-btn"
+                                data-toggle="modal"
+                                data-target=".booking-modal"
+                              >
+                                Book Now
+                              </a>
+                            </li>
+                            <li className="col-xs-12">
+                              <a href="" className="btn">
+                                View Details
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-
-                    <p>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.Lorem Ipsum has been since.
-                    </p>
-                    <ul className="row">
-                      <li className="col-xs-12">
-                        <a
-                          href=""
-                          type="button"
-                          className="btn book-btn"
-                          data-toggle="modal"
-                          data-target=".booking-modal"
-                        >
-                          Book Now
-                        </a>
-                      </li>
-                      <li className="col-xs-12">
-                        <a href="" className="btn">
-                          View Details
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div className="item">
-                <div className="item-inn">
-                  <figure>
-                    <img src={require('../../public/images/featured/3.png')} />
-                  </figure>
-                  <p className="item-price">$ 550.00</p>
-
-                  <div className="item-cntnt">
-                    <h3>Niko Trip</h3>
-
-                    <div className="star-ratings-css">
-                      <div className="star-ratings-css-top">
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span />
-                        <span />
-                      </div>
-                      <div className="star-ratings-css-bottom">
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                      </div>
-                    </div>
-
-                    <p>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.Lorem Ipsum has been since.
-                    </p>
-                    <ul className="row">
-                      <li className="col-xs-12">
-                        <a
-                          href=""
-                          type="button"
-                          className="btn book-btn"
-                          data-toggle="modal"
-                          data-target=".booking-modal"
-                        >
-                          Book Now
-                        </a>
-                      </li>
-                      <li className="col-xs-12">
-                        <a href="" className="btn">
-                          View Details
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div className="item">
-                <div className="item-inn">
-                  <figure>
-                    <img src={require('../../public/images/featured/1.png')} />
-                  </figure>
-                  <p className="item-price">$ 575.00</p>
-
-                  <div className="item-cntnt">
-                    <h3>Grand Switzerland</h3>
-
-                    <div className="star-ratings-css">
-                      <div className="star-ratings-css-top">
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star" aria-hidden="true" />
-                        </span>
-                        <span />
-                      </div>
-                      <div className="star-ratings-css-bottom">
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                        <span>
-                          <i className="fa fa-star-o" aria-hidden="true" />
-                        </span>
-                      </div>
-                    </div>
-
-                    <p>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.Lorem Ipsum has been since.
-                    </p>
-                    <ul className="row">
-                      <li className="col-xs-12">
-                        <a
-                          href=""
-                          type="button"
-                          className="btn book-btn"
-                          data-toggle="modal"
-                          data-target=".booking-modal"
-                        >
-                          Book Now
-                        </a>
-                      </li>
-                      <li className="col-xs-12">
-                        <a href="" className="btn">
-                          View Details
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </OwlCarousel>
+                  </React.Fragment>
+                ))}
+              </OwlCarousel>
+            )}
           </div>
         </section>
 
@@ -442,7 +248,7 @@ export class HomePage extends React.PureComponent {
 
 HomePage.propTypes = {
   dispatch: PropTypes.func,
-  homePage:PropTypes.any
+  homePage: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -453,6 +259,10 @@ function mapDispatchToProps(dispatch) {
   return {
     defaultAction: evt => {
       dispatch(getCity());
+      dispatch(getTour());
+    },
+    getMap: (params = {}) => {
+      dispatch(getMap(params));
     },
   };
 }
