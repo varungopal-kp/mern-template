@@ -17,7 +17,7 @@ import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import { makeSelectPageState } from './selectors';
-import { getCity, getTour, getMap } from './actions';
+import { getCity, getTour, getMap, postContact } from './actions';
 
 const baseUrl = process.env.BASE_URL;
 
@@ -43,7 +43,7 @@ export class HomePage extends React.PureComponent {
   handleSubmitContact(data) {
     if (data) {
       const newData = data.toJS();
-      console.log(newData);
+      this.props.postContacts(newData)
     }
   }
 
@@ -227,6 +227,9 @@ function mapDispatchToProps(dispatch) {
     },
     getMap: (params = {}) => {
       dispatch(getMap(params));
+    },
+    postContacts: data => {
+      dispatch(postContact(data));
     },
   };
 }

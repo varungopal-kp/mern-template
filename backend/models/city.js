@@ -4,7 +4,7 @@ const opts = { toJSON: { virtuals: true },toObject: { virtuals: true },id: false
 
 var citySchema = new mongoose.Schema(
   {
-    name: 'string',
+    name: String,
     country: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Country',

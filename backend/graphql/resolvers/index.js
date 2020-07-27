@@ -1,9 +1,11 @@
-const cityResolver = require('./city');
-const tourResolver = require('./tour');
+const cityResolver = require('./cities');
+const tourResolver = require('./tours');
+const contactResolver = require('./contacts');
 
 const rootResolver = {
   ...cityResolver,
   ...tourResolver,
+  ...contactResolver,
 };
 
 module.exports = rootResolver;

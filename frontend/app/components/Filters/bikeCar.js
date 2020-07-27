@@ -121,4 +121,6 @@ export function bikeCar({ handleSubmit, cityOptions, submitting }) {
 export default reduxForm({
   form: 'bikeCarFilterForm',
   initialValues: {},
+   enableReinitialize: true,
+  destroyOnUnmount: true,
 })(bikeCar);

@@ -1,17 +1,17 @@
 var mongoose = require('mongoose');
 
 var tourSchema = new mongoose.Schema({
-  name: 'string',
-  description: 'string',
-  image: 'string',
-  fromDate: 'string',
-  toDate: 'string',
-  lat: 'string',
-  lon: 'string',
-  people: 'string',
-  price: 'string',
-  star: 'string',
-  type: 'string',
+  name: String,
+  description: String,
+  image: String,
+  fromDate: String,
+  toDate: String,
+  lat: String,
+  lon: String,
+  people: String,
+  price: String,
+  star: String,
+  type: String,
   city: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'City',

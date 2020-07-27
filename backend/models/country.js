@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var countrySchema = new mongoose.Schema({ 
-    name: 'string',    
+    name: String,    
 });
 
 module.exports = mongoose.model('Country', countrySchema);

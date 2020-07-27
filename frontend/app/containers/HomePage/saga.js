@@ -120,12 +120,16 @@ export function* getMapCall({ payload }) {
 }
 
 export function* postContactCall({ payload }) {
-  const formData = payload;
+  const formData = JSON.stringify(JSON.stringify(payload));
   try {
     const repos = yield axios
       .post(`${apiURL}`, {
         query: `
-       
+          mutation {
+            contactsAdd(params:${formData}){
+              _id
+            }
+          }
         `,
       })
 

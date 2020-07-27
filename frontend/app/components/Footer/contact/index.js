@@ -6,8 +6,8 @@ import { submit } from 'redux-form';
 import validate from './validate';
 export function contactUs({
   change,
-  handleSubmitContact, 
-  submitting,  
+  handleSubmitContact,
+  submitting,
   dispatch,
 }) {
   return (
@@ -92,4 +92,6 @@ export default reduxForm({
   form: 'contactUsForm',
   validate,
   initialValues: {},
+  enableReinitialize: true,
+  destroyOnUnmount: true,
 })(contactUs);

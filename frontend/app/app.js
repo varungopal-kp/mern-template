@@ -17,6 +17,8 @@ import FontFaceObserver from 'fontfaceobserver';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
+import 'react-notifications/lib/notifications.css';
+
 import './public/css/bootstrap.min.css';
 
 import './public/css/style.css';
