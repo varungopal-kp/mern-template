@@ -8,7 +8,7 @@ import { connectRouter } from 'connected-react-router';
 import history from 'utils/history';
 import globalReducer from 'containers/App/reducer';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
-import { reducer as formReducer } from 'redux-form'
+import { reducer as reduxFormReducer } from 'redux-form/immutable';
 
 
 /**
@@ -17,7 +17,7 @@ import { reducer as formReducer } from 'redux-form'
 export default function createReducer(injectedReducers = {}) {
   const rootReducer = combineReducers({
     global: globalReducer,
-    form: formReducer,
+    form: reduxFormReducer,
     language: languageProviderReducer,
     router: connectRouter(history),
     ...injectedReducers,

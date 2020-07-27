@@ -6,6 +6,7 @@ module.exports = {
    let queries={}
     if (params.params) {
        queries  = JSON.parse(params.params);
+       console.log(queries)
     }
 
     try {

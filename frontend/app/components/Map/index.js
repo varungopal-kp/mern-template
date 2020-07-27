@@ -39,7 +39,7 @@ export class MapContainer extends Component {
   render() {
     const { mapData } = this.props;
     const { infoWindowData } = this.state;
-    if (mapData && mapData.length) {      
+    if (mapData && mapData.length) {
       return (
         <Map
           google={this.props.google}
@@ -98,7 +98,14 @@ export class MapContainer extends Component {
         </Map>
       );
     }
-    return '';
+    return (
+      <Map
+        google={this.props.google}
+        zoom={7}
+        styles={styles}
+        initialCenter={{ lat: 25.1813883, lng: 49.0172562 }}
+      />
+    );
   }
 }
 

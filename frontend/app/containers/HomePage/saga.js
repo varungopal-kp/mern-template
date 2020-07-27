@@ -7,8 +7,10 @@ import {
   getTourFailure,
   getMapSucess,
   getMapFailure,
+  postContactSucess,
+  postContactFailure,
 } from './actions';
-import { GET_CITY, GET_TOUR, GET_MAP } from './constants';
+import { GET_CITY, GET_TOUR, GET_MAP, POST_CONTACT } from './constants';
 
 const apiURL = `${process.env.API_BASE_URL}`;
 
@@ -117,8 +119,36 @@ export function* getMapCall({ payload }) {
   }
 }
 
+export function* postContactCall({ payload }) {
+  const formData = payload;
+  try {
+    const repos = yield axios
+      .post(`${apiURL}`, {
+        query: `
+       
+        `,
+      })
+
+      .then(response => {
+        if (response.data) {
+          const { data } = response.data;
+          return data;
+        }
+        return {};
+      })
+
+      .catch(error => {
+        console.error(error);
+      });
+    yield put(postContactSucess(repos));
+  } catch (err) {
+    yield put(postContactFailure(err));
+  }
+}
+
 export default function* homePageSaga() {
   yield takeLatest(GET_CITY, getCityCall);
   yield takeLatest(GET_TOUR, getTourCall);
   yield takeLatest(GET_MAP, getMapCall);
+  yield takeLatest(POST_CONTACT, postContactCall);
 }

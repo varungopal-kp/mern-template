@@ -1,6 +1,7 @@
 import React from 'react';
 import Filter from 'components/Filters/bikeCar';
 import Map from 'components/Map';
+import ContactUs from 'components/Footer/contact';
 import SubFooter from 'components/Footer/sub';
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
@@ -24,10 +25,26 @@ export class HomePage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
+    this.handleSubmitContact = this.handleSubmitContact.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     this.props.defaultAction();
+  }
+
+  handleSubmit(data) {
+    if (data) {
+      const newData = data.toJS();
+      this.props.getMap(newData);
+    }
+  }
+
+  handleSubmitContact(data) {
+    if (data) {
+      const newData = data.toJS();
+      console.log(newData);
+    }
   }
 
   render() {
@@ -52,7 +69,7 @@ export class HomePage extends React.PureComponent {
         <section id="map" className="map">
           <Map mapData={map} getMap={params => this.props.getMap(params)} />
         </section>
-        <Filter cityOptions={cityOptions} />
+        <Filter cityOptions={cityOptions} onSubmit={this.handleSubmit} />
         <section className="featured">
           <div className="container">
             <h2 className="heading">Featured Places</h2>
@@ -184,60 +201,7 @@ export class HomePage extends React.PureComponent {
           </section>
 
           <section className="contact-sec">
-            <div className="container">
-              <h2 className="heading">Contact Us</h2>
-              <p>97-175 Brompton Rd,Qatar S441X 7XL, Qatar</p>
-
-              <form>
-                <div className="row">
-                  <div className="col-sm-6 col-xs-12 each-div">
-                    <label>
-                      name <em>*</em>
-                    </label>
-                    <input type="text" name="" placeholder="enter your name" />
-                  </div>
-                  <div className="col-sm-6 col-xs-12 each-div">
-                    <label>
-                      E-mail address <em>*</em>
-                    </label>
-                    <input
-                      type="text"
-                      name=""
-                      placeholder="enter e-mail address"
-                    />
-                  </div>
-                  <div className="col-sm-6 col-xs-12 each-div">
-                    <label>Phone Number</label>
-                    <input
-                      type="text"
-                      name=""
-                      placeholder="enter your number"
-                    />
-                  </div>
-                  <div className="col-sm-6 col-xs-12 each-div">
-                    <label>
-                      Subject <em>*</em>
-                    </label>
-                    <input
-                      type="text"
-                      name=""
-                      placeholder="enter the subject"
-                    />
-                  </div>
-                  <div className="col-sm-24 col-xs-12 each-div special">
-                    <label>
-                      Message<em>*</em>
-                    </label>
-                    <textarea placeholder="enter message here" />
-                  </div>
-                  <div className="col-sm-24 col-xs-12 each-div special">
-                    <a href="" className="btn">
-                      Send Message
-                    </a>
-                  </div>
-                </div>
-              </form>
-            </div>
+            <ContactUs onSubmit={this.handleSubmitContact} />
           </section>
           <SubFooter />
         </div>

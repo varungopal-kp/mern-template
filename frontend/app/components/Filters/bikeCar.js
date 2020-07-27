@@ -1,10 +1,10 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form/immutable';
 import Input from 'components/Fields/input';
 import Date from 'components/Fields/date';
 import Select from 'components/Fields/select';
 import moment from 'moment';
-export function bikeCar({ handleSubmit, cityOptions }) {
+export function bikeCar({ handleSubmit, cityOptions, submitting }) {
   const typeOptions = [
     { label: 'Both', value: 'both' },
     { label: 'Car', value: 'car' },
@@ -120,7 +120,5 @@ export function bikeCar({ handleSubmit, cityOptions }) {
 }
 export default reduxForm({
   form: 'bikeCarFilterForm',
-  initialValues: {
-    type: 'both',
-  },
+  initialValues: {},
 })(bikeCar);

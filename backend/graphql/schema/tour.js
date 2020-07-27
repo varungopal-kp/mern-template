@@ -12,6 +12,7 @@ type Tour {
     people: String!    
     price: String!    
     star: String!    
+    type: String!    
     city:City!
 }
 

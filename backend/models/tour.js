@@ -11,6 +11,7 @@ var tourSchema = new mongoose.Schema({
   people: 'string',
   price: 'string',
   star: 'string',
+  type: 'string',
   city: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'City',

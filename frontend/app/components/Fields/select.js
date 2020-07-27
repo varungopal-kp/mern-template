@@ -1,13 +1,20 @@
 import React from 'react';
 
-export default function select({ input, name, options, placeholder }) {
+export default function select({
+  input,
+  name,
+  options,
+  placeholder,
+  meta: { touched, error, warning },
+}) {
   return (
     <select
       {...input}
       name={name}
       onChange={e => input.onChange(e.target.value)}
+      className={touched && error ? `inputError` : ''}
     >
-      <option value=""  disabled>
+      <option value="" disabled>
         {placeholder || 'Select'}
       </option>
       {options &&

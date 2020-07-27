@@ -2783,6 +2783,9 @@ section.car-bike-pge .other li a {
 
     max-width: 150px;
 }
+.inputError{
+	border-color: red !important;
+}
 .SingleDatePicker_picker{
 	z-index: 999 !important;
 }
@@ -2794,8 +2797,11 @@ section.car-bike-pge .other li a {
     color: #fff;
     width: 100%;
 }
-
-
+.btnContact{
+	background-color: #ff6300;
+    color: #fff;
+    float: right;
+}
 
 
 

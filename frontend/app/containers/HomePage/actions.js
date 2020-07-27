@@ -14,6 +14,9 @@ import {
   GET_MAP,
   GET_MAP_SUCCESS,
   GET_MAP_FAILURE,
+  POST_CONTACT,
+  POST_CONTACT_SUCCESS,
+  POST_CONTACT_FAILURE,
 } from './constants';
 
 export function getCity() {
@@ -67,6 +70,24 @@ export function getMapSucess(data) {
 export function getMapFailure(err) {
   return {
     type: GET_MAP_FAILURE,
+    payload: err,
+  };
+}
+export function postContact(params) {
+  return {
+    type: POST_CONTACT,
+    payload: params,
+  };
+}
+export function postContactSucess(data) {
+  return {
+    type: POST_CONTACT_SUCCESS,
+    payload: data,
+  };
+}
+export function postContactFailure(err) {
+  return {
+    type: POST_CONTACT_FAILURE,
     payload: err,
   };
 }

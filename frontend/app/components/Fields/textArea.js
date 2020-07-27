@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function input({
+export default function textArea({
   input,
   className,
   label,
@@ -12,7 +12,7 @@ export default function input({
   return (
     <div className={className}>
       {label && <label>{label}</label>}
-      <input
+      <textarea
         className={touched && error ? `inputError` : ''}
         {...input}
         name={name}
