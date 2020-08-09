@@ -2,18 +2,21 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
 const logger = require('morgan');
 const { graphqlHTTP } = require('express-graphql');
+const cors = require(`cors`);
+const dotenv = require('dotenv').config()
 const indexRouter = require('./routes/index');
 
 const graphQlSchema = require('./graphql/schema/index');
 const graphQlResolvers = require('./graphql/resolvers/index');
-const cors = require(`cors`);
+const authMiddleware = require('./middleware/auth');
 
 const app = express();
-const mongoose = require('mongoose');
-app.use(cors());
 
+app.use(cors());
+app.use('/graphql',authMiddleware.auth  );
 app.use(
   '/graphql',
   graphqlHTTP({
