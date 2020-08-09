@@ -6,6 +6,8 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
+import LoginPage from 'containers/Auth/Login';
+import Logout from 'containers/Auth/Logout';
 import HomePage from 'containers/HomePage';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import React from 'react';
@@ -26,8 +28,10 @@ export default function App() {
       </Helmet>
       <div>
         <Switch>
-          <PrivateRoute exact path="/" component={HomePage} />
-
+          <Route exact path="/" component={LoginPage}  />
+          
+          <PrivateRoute exact path="/dashboard" component={HomePage} />
+          <PrivateRoute exact path="/logout" component={Logout} />
           <Route path="" component={NotFoundPage}  />
         </Switch>
       </div>

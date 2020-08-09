@@ -122,7 +122,14 @@ export default function index(props) {
           >
             {props.title || ''}
           </Typography>
-          <Button color="inherit">Logout</Button>
+          <Button
+            color="inherit"
+            onClick={e => {
+              window.location.href = '/logout';
+            }}
+          >
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer

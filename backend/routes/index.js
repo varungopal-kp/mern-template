@@ -13,11 +13,11 @@ router.get('/', function(req, res, next) {
 router.post('/login',async function(req, res, next) {
   const {credentials} =req.body
 
-  if(!credentials) return res.json({message:"Failed"}).status(401)  
+  if(!credentials) return res.status(401).json({message:"Failed"})
 
   const user= await  User.findOne(credentials).lean().exec();
   
-  if(!user) return res.json({message:"Failed"}).status(401)  
+  if(!user) return res.status(401).json({message:"Failed"})
     
     const token = jwt.sign(user, privateKey);
     req._user = user

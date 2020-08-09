@@ -2,17 +2,19 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import DefaultLayout from 'components/Layouts/default';
 
+const token = localStorage.getItem('_token');
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      true ? (
+      token ? (
         <DefaultLayout>
           <Component {...props} />
         </DefaultLayout>
       ) : (
         <Redirect
-          to={{ pathname: '/login', state: { from: props.location } }}
+          to={{ pathname: '/', state: { from: props.location } }}
         />
       )
     }
