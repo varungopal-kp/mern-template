@@ -1,9 +1,9 @@
 // import produce from 'immer';
-import contactPageReducer from '../reducer';
+import toursReducer from '../reducer';
 // import { someAction } from '../actions';
 
 /* eslint-disable default-case, no-param-reassign */
-describe('contactPageReducer', () => {
+describe('toursReducer', () => {
   let state;
   beforeEach(() => {
     state = {
@@ -13,7 +13,7 @@ describe('contactPageReducer', () => {
 
   it('returns the initial state', () => {
     const expectedResult = state;
-    expect(contactPageReducer(undefined, {})).toEqual(expectedResult);
+    expect(toursReducer(undefined, {})).toEqual(expectedResult);
   });
 
   /**

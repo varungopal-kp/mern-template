@@ -1,21 +1,27 @@
 /*
  *
- * ContactPage reducer
+ * Tours reducer
  *
  */
 import produce from 'immer';
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import { GET_LIST_SUCCESS } from './constants';
 
-export const initialState = fromJS({});
+export const initialState = fromJS({
+  loading: false,
+  error: false,
+  list: [],
+});
 
 /* eslint-disable default-case, no-param-reassign */
-const contactPageReducer = (state = initialState, action) =>
+const contactReducer = (state = initialState, action) =>
   produce(state, (/* draft */) => {
     switch (action.type) {
-      case DEFAULT_ACTION:
-        break;
+      case GET_LIST_SUCCESS:
+        return state.set('list', action.payload.contacts);
+      default:
+        return state;
     }
   });
 
-export default contactPageReducer;
+export default contactReducer;

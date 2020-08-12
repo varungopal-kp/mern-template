@@ -5,8 +5,7 @@ module.exports = {
   tours: async (params={}) => {
    let queries={}
     if (params.params) {
-       queries  = JSON.parse(params.params);
-       
+       queries  = JSON.parse(params.params);       
     }
 
     try {

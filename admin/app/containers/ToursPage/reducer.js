@@ -10,7 +10,7 @@ import { GET_LIST_SUCCESS } from './constants';
 export const initialState = fromJS({
   loading: false,
   error: false,
-  list: false,
+  list: [],
 });
 
 /* eslint-disable default-case, no-param-reassign */

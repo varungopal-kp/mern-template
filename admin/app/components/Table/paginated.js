@@ -41,8 +41,8 @@ export default function StickyHeadTable({ columns, rows }) {
               {columns.map(column => (
                 <TableCell
                   key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  align={column.align&&column.align}
+                  style={{ minWidth: column.minWidth || 170 }}
                 >
                   {column.label}
                 </TableCell>
@@ -53,13 +53,20 @@ export default function StickyHeadTable({ columns, rows }) {
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, i) => (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.id || i}>
+                <TableRow
+                  hover
+                  role="checkbox"
+                  tabIndex={-1}
+                  key={row._id || i}
+                >
                   {columns.map(column => {
                     const value = row[column.id];
                     return (
                       <TableCell key={column.id} align={column.align}>
                         {column.format && typeof value === 'number'
-                          ? column.format(value)
+                          ? column.format
+                            ? column.format(value)
+                            : value
                           : value}
                       </TableCell>
                     );

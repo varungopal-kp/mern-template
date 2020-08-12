@@ -1,6 +1,49 @@
-// import { take, call, put, select } from 'redux-saga/effects';
+import axios from 'axios';
+import { defaultHeader } from 'helpers/apiHeader';
+import { put, takeLatest } from 'redux-saga/effects';
+import { getListError, getListSuccess } from './actions';
+import { GET_LIST } from './constants';
+const apiURL = `${process.env.API_BASE_URL}`;
 
-// Individual exports for testing
-export default function* contactPageSaga() {
-  // See example in containers/HomePage/saga.js
+export function* getListCall() {
+  try {
+    const repos = yield axios
+      .post(
+        `${apiURL}`,
+        {
+          query: `
+        {
+          contacts{
+             _id
+             name
+             email
+             message
+            }
+        }
+        `,
+        },
+        {
+          headers: defaultHeader,
+        },
+      )
+
+      .then(response => {
+        if (response.data) {
+          const { data } = response.data;
+          return data;
+        }
+        return {};
+      })
+
+      .catch(error => {
+        console.error(error);
+      });
+    yield put(getListSuccess(repos));
+  } catch (err) {
+    yield put(getListError(err));
+  }
+}
+
+export default function* Saga() {
+  yield takeLatest(GET_LIST, getListCall);
 }

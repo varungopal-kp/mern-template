@@ -20,20 +20,21 @@ import List from './list';
 import { getList } from './actions';
 
 export class ToursPage extends React.PureComponent {
-  componentDidMount(){
-    this.props.getList()
+  componentDidMount() {
+    this.props.setTitle('Tours');
+    this.props.getList();
   }
 
   render() {
-    const {toursPage}=this.props;
-    console.log(toursPage)
+    const { toursPage } = this.props;
+
     return (
       <div>
         <Helmet>
           <title>ToursPage</title>
           <meta name="description" content="Description of ToursPage" />
         </Helmet>
-        <List />
+        <List toursPage={toursPage} />
       </div>
     );
   }

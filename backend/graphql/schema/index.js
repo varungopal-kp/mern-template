@@ -14,6 +14,7 @@ ${contactSchema}
 type RootQuery {
     cities: [City!]!
     tours(params:String): [Tour!]!
+    contacts(params:String): [Contact!]!
 }
 type RootMutation {
     contactsAdd(params:String): Contact!

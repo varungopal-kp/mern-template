@@ -16,6 +16,7 @@ export function* getListCall() {
           tours{
              _id
              name
+             description
             }
         }
         `,

@@ -14,4 +14,15 @@ module.exports = {
         throw 'Failed';
     }
   },
+  contacts: async (params={}) => {
+    let queries={}
+     if (params.params) {
+        queries  = JSON.parse(params.params);        
+     } 
+     try {
+       return await Contact.find(queries);
+     } catch (err) {
+       throw err;
+     }
+   },
 };

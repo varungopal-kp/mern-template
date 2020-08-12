@@ -1,6 +1,6 @@
-// import { selectContactPageDomain } from '../selectors';
+// import { selectToursDomain } from '../selectors';
 
-describe('selectContactPageDomain', () => {
+describe('selectToursDomain', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(false);
   });

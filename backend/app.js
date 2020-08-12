@@ -16,7 +16,15 @@ const authMiddleware = require('./middleware/auth');
 const app = express();
 
 app.use(cors());
-app.use('/graphql',authMiddleware.auth  );
+app.use('/admin',authMiddleware.auth  );
+app.use(
+  '/admin',
+  graphqlHTTP({
+    schema: graphQlSchema,
+    rootValue: graphQlResolvers,
+    graphiql: true,
+  })
+);
 app.use(
   '/graphql',
   graphqlHTTP({
