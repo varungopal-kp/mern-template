@@ -36,7 +36,7 @@ ContactPage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  tours: makeSelectContactPage(),
+  contactsPage: makeSelectContactPage(),
 });
 
 function mapDispatchToProps(dispatch) {

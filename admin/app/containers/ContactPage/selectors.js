@@ -1,25 +1,37 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
-/**
- * Direct selector to the contactPage state domain
- */
+const selectPageDomain = state => state.get('contactPage', initialState);
 
-const selectContactPageDomain = state => state.contactPage || initialState;
-
-/**
- * Other specific selectors
- */
-
-/**
- * Default selector used by ContactPage
- */
-
-const makeSelectContactPage = () =>
+const makeSelectLoading = () =>
   createSelector(
-    selectContactPageDomain,
-    substate => substate,
+    selectPageDomain,
+    state => state.get('loading'),
   );
 
-export default makeSelectContactPage;
-export { selectContactPageDomain };
+const makeSelectError = () =>
+  createSelector(
+    selectPageDomain,
+    state => state.get('error'),
+  );
+
+const makeSelectList = () =>
+  createSelector(
+    selectPageDomain,
+    state => state.get('list'),
+  );
+
+const makeSelectPage = () =>
+  createSelector(
+    selectPageDomain,
+    substate => substate.toJS(),
+  );
+
+export default makeSelectPage;
+export {
+  selectPageDomain,
+  makeSelectLoading,
+  makeSelectError,
+  makeSelectList,
+  makeSelectPage,
+};

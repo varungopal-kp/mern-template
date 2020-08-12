@@ -16,31 +16,42 @@ import injectSaga from 'utils/injectSaga';
 import makeSelectTours from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import List from './list';
+import { getList } from './actions';
 
 export class ToursPage extends React.PureComponent {
+  componentDidMount(){
+    this.props.getList()
+  }
+
   render() {
+    const {toursPage}=this.props;
+    console.log(toursPage)
     return (
       <div>
         <Helmet>
           <title>ToursPage</title>
           <meta name="description" content="Description of ToursPage" />
         </Helmet>
+        <List />
       </div>
     );
   }
 }
 
 ToursPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  tours: makeSelectTours(),
+  toursPage: makeSelectTours(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    getList: () => {
+      dispatch(getList());
+    },
   };
 }
 const withReducer = injectReducer({ key: 'toursPage', reducer });

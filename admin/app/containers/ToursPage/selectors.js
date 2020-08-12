@@ -1,25 +1,37 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
-/**
- * Direct selector to the tours state domain
- */
+const selectPageDomain = state => state.get('toursPage', initialState);
 
-const selectToursDomain = state => state.tours || initialState;
-
-/**
- * Other specific selectors
- */
-
-/**
- * Default selector used by Tours
- */
-
-const makeSelectTours = () =>
+const makeSelectLoading = () =>
   createSelector(
-    selectToursDomain,
-    substate => substate,
+    selectPageDomain,
+    state => state.get('loading'),
   );
 
-export default makeSelectTours;
-export { selectToursDomain };
+const makeSelectError = () =>
+  createSelector(
+    selectPageDomain,
+    state => state.get('error'),
+  );
+
+const makeSelectList = () =>
+  createSelector(
+    selectPageDomain,
+    state => state.get('list'),
+  );
+
+const makeSelectPage = () =>
+  createSelector(
+    selectPageDomain,
+    substate => substate.toJS(),
+  );
+
+export default makeSelectPage;
+export {
+  selectPageDomain,
+  makeSelectLoading,
+  makeSelectError,
+  makeSelectList,
+  makeSelectPage,
+};

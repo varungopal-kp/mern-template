@@ -14,7 +14,7 @@ import { login } from './actions';
 import Form from './Form';
 import reducer from './reducer';
 import saga from './saga';
-import { makeSelectPageState } from './selectors';
+import  selectPageDomain  from './selectors';
 
 export class SignIn extends React.PureComponent {
   handleSubmit(data) {
@@ -49,7 +49,7 @@ export class SignIn extends React.PureComponent {
 }
 
 const mapStateToProps = createStructuredSelector({
-  loginPage: makeSelectPageState(),
+  loginPage: selectPageDomain(),
 });
 
 function mapDispatchToProps(dispatch) {

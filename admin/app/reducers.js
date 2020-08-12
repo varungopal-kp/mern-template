@@ -2,13 +2,13 @@
  * Combine all reducers in this file and export the combined reducers.
  */
 
-import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router';
+import { combineReducers } from 'redux-immutable';
+import { connectRouter } from 'connected-react-router/immutable';
+import { reducer as reduxFormReducer } from 'redux-form/immutable';
 
 import history from 'utils/history';
 import globalReducer from 'containers/App/reducer';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
-import { reducer as reduxFormReducer } from 'redux-form/immutable';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -16,11 +16,13 @@ import { reducer as reduxFormReducer } from 'redux-form/immutable';
 export default function createReducer(injectedReducers = {}) {
   const rootReducer = combineReducers({
     global: globalReducer,
-    form: reduxFormReducer,
     language: languageProviderReducer,
-    router: connectRouter(history),
+    form: reduxFormReducer, // mounted under "form"
     ...injectedReducers,
+    router: connectRouter(history),
   });
 
-  return rootReducer;
+  // Wrap the root reducer and return a new root reducer with router state
+  const mergeWithRouterState = connectRouter(history);
+  return mergeWithRouterState(rootReducer);
 }

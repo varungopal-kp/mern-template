@@ -1,25 +1,37 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
-/**
- * Direct selector to the homePage state domain
- */
+const selectPageDomain = state => state.get('homePage', initialState);
 
-const selectHomePageDomain = state => state.homePage || initialState;
-
-/**
- * Other specific selectors
- */
-
-/**
- * Default selector used by HomePage
- */
-
-const makeSelectHomePage = () =>
+const makeSelectLoading = () =>
   createSelector(
-    selectHomePageDomain,
-    substate => substate,
+    selectPageDomain,
+    state => state.get('loading'),
   );
 
-export default makeSelectHomePage;
-export { selectHomePageDomain };
+const makeSelectError = () =>
+  createSelector(
+    selectPageDomain,
+    state => state.get('error'),
+  );
+
+const makeSelectList = () =>
+  createSelector(
+    selectPageDomain,
+    state => state.get('list'),
+  );
+
+const makeSelectPage = () =>
+  createSelector(
+    selectPageDomain,
+    substate => substate.toJS(),
+  );
+
+export default makeSelectPage;
+export {
+  selectPageDomain,
+  makeSelectLoading,
+  makeSelectError,
+  makeSelectList,
+  makeSelectPage,
+};

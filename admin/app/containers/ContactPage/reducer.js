@@ -4,9 +4,10 @@
  *
  */
 import produce from 'immer';
+import { fromJS } from 'immutable';
 import { DEFAULT_ACTION } from './constants';
 
-export const initialState = {};
+export const initialState = fromJS({});
 
 /* eslint-disable default-case, no-param-reassign */
 const contactPageReducer = (state = initialState, action) =>
