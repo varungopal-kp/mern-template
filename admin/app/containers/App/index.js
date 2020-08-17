@@ -11,6 +11,7 @@ import Logout from 'containers/Auth/Logout';
 import HomePage from 'containers/HomePage';
 import ToursPage from 'containers/ToursPage';
 import ContactPage from 'containers/ContactPage';
+import ChatRoomPage from 'containers/ChatRoomPage';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import React from 'react';
 import { Helmet } from 'react-helmet';
@@ -33,6 +34,7 @@ export default function App() {
           <PrivateRoute exact path="/dashboard" component={HomePage} />
           <PrivateRoute exact path="/tours" component={ToursPage} />
           <PrivateRoute exact path="/contacts" component={ContactPage} />
+          <PrivateRoute exact path="/chatRoom" component={ChatRoomPage} />
           <PrivateRoute exact path="/logout" component={Logout} />
           <Route path="" component={NotFoundPage} />
         </Switch>

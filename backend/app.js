@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const { graphqlHTTP } = require('express-graphql');
 const cors = require(`cors`);
-const dotenv = require('dotenv').config()
+const dotenv = require('dotenv').config();
 const indexRouter = require('./routes/index');
 
 const graphQlSchema = require('./graphql/schema/index');
@@ -15,8 +15,9 @@ const authMiddleware = require('./middleware/auth');
 
 const app = express();
 
-app.use(cors());
-app.use('/admin',authMiddleware.auth  );
+app.use(cors({credentials: true, origin: ["http://localhost:3000","http://localhost:4000"]}));
+
+app.use('/admin', authMiddleware.auth);
 app.use(
   '/admin',
   graphqlHTTP({

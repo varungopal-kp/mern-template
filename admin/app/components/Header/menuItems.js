@@ -27,5 +27,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Contacts" />
     </ListItem>
+    <ListItem button component={Link} to="/chatRoom">
+      <ListItemIcon>
+        <AcUnitIcon />
+      </ListItemIcon>
+      <ListItemText primary="Chat Room" />
+    </ListItem>
   </div>
 );

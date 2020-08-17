@@ -16,6 +16,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import FontFaceObserver from 'fontfaceobserver';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
+import { v4 as uuidv4 } from 'uuid';
 
 import 'react-notifications/lib/notifications.css';
 
@@ -26,7 +27,6 @@ import './public/css/style.css';
 import './public/css/font-awesome.min.css';
 
 import './public/css/media-queries.css';
-
 
 // Import root app
 import App from 'containers/App';
@@ -51,6 +51,11 @@ const openSansObserver = new FontFaceObserver('Open Sans', {});
 openSansObserver.load().then(() => {
   document.body.classList.add('fontLoaded');
 });
+
+const chatId = localStorage.getItem('_ct');
+if (!chatId) {
+  localStorage.setItem('_ct', uuidv4());
+}
 
 // Create redux store with history
 const initialState = {};

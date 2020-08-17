@@ -8,6 +8,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import IconButton from '@material-ui/core/IconButton';
+import ViewButton from '@material-ui/icons/Visibility';
+import EditIcon from '@material-ui/icons/Create';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles({
   root: {
@@ -18,7 +22,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function StickyHeadTable({ columns, rows }) {
+export default function StickyHeadTable({
+  columns,
+  rows,
+  viewClick,
+  deleteClick,
+  editClick,
+}) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -41,7 +51,7 @@ export default function StickyHeadTable({ columns, rows }) {
               {columns.map(column => (
                 <TableCell
                   key={column.id}
-                  align={column.align&&column.align}
+                  align={column.align && column.align}
                   style={{ minWidth: column.minWidth || 170 }}
                 >
                   {column.label}
@@ -61,13 +71,37 @@ export default function StickyHeadTable({ columns, rows }) {
                 >
                   {columns.map(column => {
                     const value = row[column.id];
+                    
                     return (
                       <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === 'number'
-                          ? column.format
-                            ? column.format(value)
-                            : value
-                          : value}
+                        {column.id == 'action' ? (
+                          <>
+                            {' '}
+                            {column.view && (
+                              <IconButton onClick={e => viewClick(row)}>
+                                <ViewButton color="primary" />
+                              </IconButton>
+                            )}
+                            {column.edit && (
+                              <IconButton onClick={e => editClick(row)}>
+                                <EditIcon color="primary" />
+                              </IconButton>
+                            )}
+                            {column.delete && (
+                              <IconButton onClick={e => deleteClick(row)}>
+                                <DeleteIcon color="secondary" />
+                              </IconButton>
+                            )}
+                          </>
+                        ) : column.format && typeof value === 'number' ? (
+                          column.format ? (
+                            column.format(value)
+                          ) : (
+                            value
+                          )
+                        ) : (
+                          value
+                        )}
                       </TableCell>
                     );
                   })}
