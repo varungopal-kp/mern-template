@@ -2,7 +2,7 @@ module.exports =`
 
 type Chat {
     _id: ID!
-    user: String!
+    user: String
     message: [String]!
     
 }

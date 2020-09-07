@@ -16,7 +16,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import FontFaceObserver from 'fontfaceobserver';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
-import { v4 as uuidv4 } from 'uuid';
+
 
 import 'react-notifications/lib/notifications.css';
 
@@ -52,10 +52,7 @@ openSansObserver.load().then(() => {
   document.body.classList.add('fontLoaded');
 });
 
-const chatId = localStorage.getItem('_ct');
-if (!chatId) {
-  localStorage.setItem('_ct', uuidv4());
-}
+
 
 // Create redux store with history
 const initialState = {};

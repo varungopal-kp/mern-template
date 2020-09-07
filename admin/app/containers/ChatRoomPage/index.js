@@ -36,7 +36,7 @@ export class ChatRoomPage extends React.PureComponent {
   }
 
   render() {
-    const { chatRoomPage } = this.props;
+    const { chatRoomPage ,getList} = this.props;
     const { page, initialValues } = this.state;
 
     return (
@@ -52,10 +52,11 @@ export class ChatRoomPage extends React.PureComponent {
                 <List
                   chatRoomPage={chatRoomPage}
                   viewClick={e => this.viewClick(e)}
+                 
                 />
               );
             case 'view':
-              return <Form initialValues={initialValues}   chatRoomPage={chatRoomPage}/>;
+              return <Form initialValues={initialValues}  getList={getList}   chatRoomPage={chatRoomPage}/>;
             default:
               return '';
           }

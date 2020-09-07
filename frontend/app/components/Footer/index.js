@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
+import { v4 as uuidv4 } from 'uuid';
 
-const socket = io('http://localhost:8000/');
-const chatId = localStorage.getItem('_ct');
+const chatId = uuidv4();
+const socket = io('http://localhost:8000/', { query: `user=${chatId}` });
 
 export default class index extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ export default class index extends Component {
   }
 
   componentDidMount() {
-    socket.on('chat message', chatResponse => this.setState({ chatResponse }));
+    socket.on(chatId, chatResponse => this.setState({ chatResponse }));
   }
 
   componentWillUnmount() {
@@ -24,7 +25,7 @@ export default class index extends Component {
       const newChatHistory = chatHistory;
       newChatHistory.push(chatResponse);
       this.setState({ chatHistory: newChatHistory });
-      console.log(newChatHistory);
+    
     }
   }
 
@@ -44,9 +45,9 @@ export default class index extends Component {
 
             <div className="chat-history" style={{ minHeight: '200px' }}>
               {chatHistory && (
-                <ul style={{padding:'12px'}}>
+                <ul style={{ padding: '12px' }}>
                   {chatHistory.map(_a => (
-                    <li style={{marginBottom:'10px'}}>{_a}</li>
+                    <li style={{ marginBottom: '10px' }}>{_a}</li>
                   ))}
                 </ul>
               )}
@@ -64,7 +65,7 @@ export default class index extends Component {
                 if (e.key === 'Enter') {
                   e.preventDefault();
                   this.sendChat();
-                  e.target.value=""
+                  e.target.value = '';
                 }
               }}
             />

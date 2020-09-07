@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import '../style.css';
 
 const socket = io('http://localhost:8000/');
-const chatId = localStorage.getItem('_token');
+const socket2 = io('http://localhost:8000/');
+
 
 export default class index extends Component {
   constructor(props) {
@@ -16,11 +17,14 @@ export default class index extends Component {
       chatMessage: '',
       chatResponse: '',
       chatHistory: [],
+      
     };
   }
 
   componentDidMount() {
-    socket.on('chat message', chatResponse => this.setState({ chatResponse }));
+    socket2.on('newRoom', newRoom =>{   
+      return this.props.getList()
+    });
   }
 
   componentWillUnmount() {
@@ -33,18 +37,22 @@ export default class index extends Component {
       const newChatHistory = chatHistory;
       newChatHistory.push(chatResponse);
       this.setState({ chatHistory: newChatHistory });
-      console.log(newChatHistory);
     }
     if (preState.selectedUser != selectedUser) {
+     
+      socket.off();
+      socket.on(selectedUser.user, cr => this.setState({ chatResponse:cr }));
       const chatHistory = selectedUser.message;
       this.setState({ chatHistory });
     }
   }
 
   sendChat() {
-    const { chatMessage } = this.state;
+    const { chatMessage, selectedUser } = this.state;
+    if (selectedUser) {
+      socket.emit('chat', { message: chatMessage });
+    }
 
-    socket.emit('chat', { message: chatMessage, chatId });
     this.setState({ chatMessage: '' });
   }
 
