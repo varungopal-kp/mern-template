@@ -8,7 +8,6 @@ import '../style.css';
 const socket = io('http://localhost:8000/');
 const socket2 = io('http://localhost:8000/');
 
-
 export default class index extends Component {
   constructor(props) {
     super(props);
@@ -17,14 +16,11 @@ export default class index extends Component {
       chatMessage: '',
       chatResponse: '',
       chatHistory: [],
-      
     };
   }
 
   componentDidMount() {
-    socket2.on('newRoom', newRoom =>{   
-      return this.props.getList()
-    });
+    socket2.on('newRoom', newRoom => this.props.getList());
   }
 
   componentWillUnmount() {
@@ -39,10 +35,9 @@ export default class index extends Component {
       this.setState({ chatHistory: newChatHistory });
     }
     if (preState.selectedUser != selectedUser) {
-     
       socket.off();
-      socket.on(selectedUser.user, cr => this.setState({ chatResponse:cr }));
-      const chatHistory = selectedUser.message;
+      socket.on(selectedUser.user, cr => this.setState({ chatResponse: cr }));
+      const chatHistory = selectedUser.chats;
       this.setState({ chatHistory });
     }
   }
@@ -58,6 +53,7 @@ export default class index extends Component {
 
   render() {
     const { list } = this.props.chatRoomPage;
+    const { currentUser } = this.props;
     const { chatHistory, chatMessage } = this.state;
 
     return (
@@ -68,7 +64,7 @@ export default class index extends Component {
             <i className="fa fa-search" />
           </div>
           <ul className="list">
-            {list.map(_a => (
+            {list.map((_a, i) => (
               <li
                 className="clearfix chat-user"
                 key={_a._id}
@@ -79,7 +75,7 @@ export default class index extends Component {
                   alt="avatar"
                 />
                 <div className="about">
-                  <div className="name">User</div>
+                  <div className="name">User {i + 1}</div>
                   <div className="status">
                     <i className="fa fa-circle online" /> online
                   </div>
@@ -107,17 +103,37 @@ export default class index extends Component {
             {chatHistory && (
               <ul>
                 {chatHistory.map(_a => (
-                  <li className="clearfix">
-                    <div className="message-data align-right">
-                      <span className="message-data-time">10:10 AM, Today</span>
-                      &nbsp; &nbsp;
-                      <span className="message-data-name">Olia</span>
-                      <i className="fa fa-circle me" />
-                    </div>
-                    <div className="message other-message float-right">
-                      {_a}
-                    </div>
-                  </li>
+                  <>
+                    {_a.user == currentUser ? (
+                      <li className="clearfix">
+                        <div className="message-data align-right">
+                          <span className="message-data-time">
+                            10:10 AM, Today
+                          </span>
+                          &nbsp; &nbsp;
+                          <span className="message-data-name">You</span>
+                          <i className="fa fa-circle me" />
+                        </div>
+                        <div className="message my-message float-right">
+                          {_a.message}
+                        </div>
+                      </li>
+                    ) : (
+                      <li className="clearfix">
+                        <div className="message-data align-left">
+                          <span className="message-data-time">
+                            10:10 AM, Today
+                          </span>
+                          &nbsp; &nbsp;
+                          <span className="message-data-name" />
+                          <i className="fa fa-circle me" />
+                        </div>
+                        <div className="message other-message float-left">
+                          {_a.message}
+                        </div>
+                      </li>
+                    )}
+                  </>
                 ))}
               </ul>
             )}

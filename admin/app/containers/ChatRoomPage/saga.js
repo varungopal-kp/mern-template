@@ -16,7 +16,11 @@ export function* getListCall() {
           chats{
              _id
              user             
-             message
+             chats{
+               user
+               message
+               time
+             }
             }
         }
         `,

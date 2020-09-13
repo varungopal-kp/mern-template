@@ -22,7 +22,7 @@ router.post('/login', async function (req, res, next) {
 
   const token = jwt.sign(user, privateKey);
   req._user = user;
-  res.json({ user, token });
+   res.json({ user, token }).status(200);
 });
 
 router.post('/chat', async function (req, res, next) {

@@ -11,6 +11,7 @@ export function* loginCall({ payload }) {
     
     if (repos.data) {
       localStorage.setItem('_token', repos.data.token);
+      localStorage.setItem('user', repos.data.user._id);
     }
     yield put(loginSucess(repos.data));
     

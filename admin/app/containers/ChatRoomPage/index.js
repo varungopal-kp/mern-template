@@ -13,17 +13,19 @@ import { compose } from 'redux';
 
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
+import makeSelectGlobalPage from 'containers/App/selectors';
 import makeSelectContactPage from './selectors';
+
 import reducer from './reducer';
 import saga from './saga';
-import List from './list';
+
 import Form from './form';
 import { getList } from './actions';
 
 export class ChatRoomPage extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { page: 'list', initialValues: false };
+    this.state = { page: 'view', initialValues: false };
   }
 
   componentDidMount() {
@@ -36,7 +38,7 @@ export class ChatRoomPage extends React.PureComponent {
   }
 
   render() {
-    const { chatRoomPage ,getList} = this.props;
+    const { chatRoomPage, getList, global } = this.props;
     const { page, initialValues } = this.state;
 
     return (
@@ -47,16 +49,16 @@ export class ChatRoomPage extends React.PureComponent {
         </Helmet>
         {(() => {
           switch (page) {
-            case 'list':
+            
+            case 'view':
               return (
-                <List
+                <Form
+                  initialValues={initialValues}
+                  getList={getList}
                   chatRoomPage={chatRoomPage}
-                  viewClick={e => this.viewClick(e)}
-                 
+                  currentUser={global.currentUser}
                 />
               );
-            case 'view':
-              return <Form initialValues={initialValues}  getList={getList}   chatRoomPage={chatRoomPage}/>;
             default:
               return '';
           }
@@ -72,6 +74,7 @@ ChatRoomPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   chatRoomPage: makeSelectContactPage(),
+  global: makeSelectGlobalPage(),
 });
 
 function mapDispatchToProps(dispatch) {

@@ -11,11 +11,13 @@ import produce from 'immer';
 import { fromJS } from 'immutable';
 import { LOAD_REPOS_SUCCESS, LOAD_REPOS, LOAD_REPOS_ERROR } from './constants';
 
+const userID = localStorage.getItem('user') || false;
+
 // The initial state of the App
 export const initialState = fromJS({
   loading: false,
   error: false,
-  currentUser: false,
+  currentUser: userID,
   userData: {
     repositories: false,
   },
