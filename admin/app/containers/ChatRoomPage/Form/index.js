@@ -4,8 +4,8 @@ import io from 'socket.io-client';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import '../style.css';
-
-const socket = io('http://localhost:8000/');
+const chatId = localStorage.getItem('user')
+const socket = io('http://localhost:8000/',{ query: `user=${chatId}` });
 const socket2 = io('http://localhost:8000/');
 
 export default class index extends Component {
@@ -39,13 +39,20 @@ export default class index extends Component {
       socket.on(selectedUser.user, cr => this.setState({ chatResponse: cr }));
       const chatHistory = selectedUser.chats;
       this.setState({ chatHistory });
+      this.props.getList();
     }
   }
 
   sendChat() {
     const { chatMessage, selectedUser } = this.state;
+    const chatId = selectedUser.user;
+    
     if (selectedUser) {
-      socket.emit('chat', { message: chatMessage });
+      socket.emit('chat', {
+        message: chatMessage,
+        chatId,
+        time: new Date(),
+      });
     }
 
     this.setState({ chatMessage: '' });

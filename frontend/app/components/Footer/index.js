@@ -25,18 +25,18 @@ export default class index extends Component {
       const newChatHistory = chatHistory;
       newChatHistory.push(chatResponse);
       this.setState({ chatHistory: newChatHistory });
-    
     }
   }
 
   sendChat() {
     const { chatMessage } = this.state;
 
-    socket.emit('chat', { message: chatMessage, chatId });
+    socket.emit('chat', { message: chatMessage,  time: new Date() });
   }
 
   render() {
     const { chatHistory } = this.state;
+    
     return (
       <>
         <div className="chat-popup">
@@ -47,7 +47,7 @@ export default class index extends Component {
               {chatHistory && (
                 <ul style={{ padding: '12px' }}>
                   {chatHistory.map(_a => (
-                    <li style={{ marginBottom: '10px' }}>{_a}</li>
+                    <li style={{ marginBottom: '10px' }}>{_a.message}</li>
                   ))}
                 </ul>
               )}

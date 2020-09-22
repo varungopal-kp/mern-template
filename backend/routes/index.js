@@ -22,19 +22,49 @@ router.post('/login', async function (req, res, next) {
 
   const token = jwt.sign(user, privateKey);
   req._user = user;
-   res.json({ user, token }).status(200);
+  res.json({ user, token }).status(200);
 });
 
 router.post('/chat', async function (req, res, next) {
   const { data } = req.body;
-  const user = await Chat.findOne({ user: data.user });
-  if (user) {
-    user.message.push(data.message);
-    user.save();
-  } else {
-    const chat = await new Chat(data);
-    chat.save();
+
+  if (data.admin) {
+    const user = await Chat.findOne({ user: data.admin });
+    
+    if (user) {
+      const chat = {
+        user:  data.user,
+        message: data.message,
+        time: data.time,
+      };
+      user.chats.push(chat);
+      user.save();
+    }
+  }else{
+    const user = await Chat.findOne({ user: data.user });
+    
+    if (user) {
+      const chat = {
+        user:  data.user,
+        message: data.message,
+        time: data.time,
+      };
+      user.chats.push(chat);
+      user.save();
+    } else {
+      const newChat = {
+        user: data.user,
+        chats: {
+          user: data.user,
+          message: data.message,
+          time: data.time,
+        },
+      };
+      const chat = await new Chat(newChat);
+      chat.save();
+    }
   }
+  
   res.status(200).json();
 });
 
