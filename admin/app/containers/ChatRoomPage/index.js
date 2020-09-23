@@ -20,7 +20,7 @@ import reducer from './reducer';
 import saga from './saga';
 
 import Form from './form';
-import { getList } from './actions';
+import { getList, deleteChat } from './actions';
 
 export class ChatRoomPage extends React.PureComponent {
   constructor(props) {
@@ -49,7 +49,6 @@ export class ChatRoomPage extends React.PureComponent {
         </Helmet>
         {(() => {
           switch (page) {
-            
             case 'view':
               return (
                 <Form
@@ -57,6 +56,7 @@ export class ChatRoomPage extends React.PureComponent {
                   getList={getList}
                   chatRoomPage={chatRoomPage}
                   currentUser={global.currentUser}
+                  deleteChat={id => this.props.deleteChat(id)}
                 />
               );
             default:
@@ -81,6 +81,9 @@ function mapDispatchToProps(dispatch) {
   return {
     getList: () => {
       dispatch(getList());
+    },
+    deleteChat: id => {
+      dispatch(deleteChat(id));
     },
   };
 }

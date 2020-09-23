@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
-
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import moment from 'moment';
 import '../style.css';
-const chatId = localStorage.getItem('user')
-const socket = io('http://localhost:8000/',{ query: `user=${chatId}` });
+const chatId = localStorage.getItem('user');
+const socket = io('http://localhost:8000/', { query: `user=${chatId}` });
 const socket2 = io('http://localhost:8000/');
 
 export default class index extends Component {
@@ -28,15 +28,15 @@ export default class index extends Component {
   }
 
   componentDidUpdate(preProps, preState) {
-    const { chatResponse, selectedUser, chatHistory } = this.state;
-    if (preState.chatResponse != chatResponse) {
-      const newChatHistory = chatHistory;
-      newChatHistory.push(chatResponse);
-      this.setState({ chatHistory: newChatHistory });
-    }
+    const { selectedUser } = this.state;
+
     if (preState.selectedUser != selectedUser) {
       socket.off();
-      socket.on(selectedUser.user, cr => this.setState({ chatResponse: cr }));
+      socket.on(selectedUser.user, cr => {
+        const newChatHistory = chatHistory;
+        newChatHistory.push(cr);
+        return this.setState({ chatHistory: newChatHistory });
+      });
       const chatHistory = selectedUser.chats;
       this.setState({ chatHistory });
       this.props.getList();
@@ -46,7 +46,7 @@ export default class index extends Component {
   sendChat() {
     const { chatMessage, selectedUser } = this.state;
     const chatId = selectedUser.user;
-    
+
     if (selectedUser) {
       socket.emit('chat', {
         message: chatMessage,
@@ -60,16 +60,12 @@ export default class index extends Component {
 
   render() {
     const { list } = this.props.chatRoomPage;
-    const { currentUser } = this.props;
-    const { chatHistory, chatMessage } = this.state;
+    const { currentUser, deleteChat } = this.props;
+    const { chatHistory, chatMessage, selectedUser } = this.state;
 
     return (
       <div className="container clearfix">
         <div className="people-list" id="people-list">
-          <div className="search">
-            <input type="text" placeholder="search" />
-            <i className="fa fa-search" />
-          </div>
           <ul className="list">
             {list.map((_a, i) => (
               <li
@@ -82,9 +78,10 @@ export default class index extends Component {
                   alt="avatar"
                 />
                 <div className="about">
-                  <div className="name">User {i + 1}</div>
+                  <div className="name">User #{i + 1}</div>
                   <div className="status">
-                    <i className="fa fa-circle online" /> online
+                    <i className="fa fa-circle online" />{' '}
+                    {_a.time && moment(_a.time).format('DD-MM-YYYY')}
                   </div>
                 </div>
               </li>
@@ -93,19 +90,32 @@ export default class index extends Component {
         </div>
 
         <div className="chat">
-          <div className="chat-header clearfix">
-            <img
-              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg"
-              alt="avatar"
-            />
+          {selectedUser && (
+            <div className="chat-header clearfix">
+              <img
+                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg"
+                alt="avatar"
+              />
 
-            <div className="chat-about">
-              <div className="chat-with">Chat with User</div>
-              <div className="chat-num-messages">already 1 902 messages</div>
+              <div className="chat-about">
+                <div className="chat-with">Chat with User</div>
+                <div className="chat-num-messages">
+                  already {selectedUser.chats.length} messages
+                </div>
+              </div>
+              <Button
+                variant="contained"
+                color="secondary"
+                style={{ float: 'right' }}
+                onClick={e => {
+                  deleteChat(selectedUser._id);
+                  this.setState({ selectedUser: false });
+                }}
+              >
+                <DeleteIcon />
+              </Button>
             </div>
-            <i className="fa fa-star" />
-          </div>
-
+          )}
           <div className="chat-history">
             {chatHistory && (
               <ul>
@@ -115,7 +125,8 @@ export default class index extends Component {
                       <li className="clearfix">
                         <div className="message-data align-right">
                           <span className="message-data-time">
-                            10:10 AM, Today
+                            {_a.time &&
+                              moment(_a.time).format('DD-MM-YYYY h:mm:ss')}
                           </span>
                           &nbsp; &nbsp;
                           <span className="message-data-name">You</span>
@@ -129,7 +140,8 @@ export default class index extends Component {
                       <li className="clearfix">
                         <div className="message-data align-left">
                           <span className="message-data-time">
-                            10:10 AM, Today
+                            {_a.time &&
+                              moment(_a.time).format('DD-MM-YYYY h:mm:ss')}
                           </span>
                           &nbsp; &nbsp;
                           <span className="message-data-name" />

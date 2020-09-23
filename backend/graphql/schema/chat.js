@@ -11,7 +11,7 @@ type Chat {
     _id: ID!
     user: String
     chats: [ChatMessage!]!
-    
+    time: String
 }
 
 `;

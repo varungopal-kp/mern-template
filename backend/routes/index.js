@@ -59,6 +59,7 @@ router.post('/chat', async function (req, res, next) {
           message: data.message,
           time: data.time,
         },
+        time: data.time,
       };
       const chat = await new Chat(newChat);
       chat.save();

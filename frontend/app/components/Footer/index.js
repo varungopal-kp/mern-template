@@ -31,24 +31,44 @@ export default class index extends Component {
   sendChat() {
     const { chatMessage } = this.state;
 
-    socket.emit('chat', { message: chatMessage,  time: new Date() });
+    socket.emit('chat', { message: chatMessage, time: new Date() });
   }
 
   render() {
     const { chatHistory } = this.state;
-    
+
     return (
       <>
         <div className="chat-popup">
           <form className="chat-container">
-            <h1>Chat</h1>
-
+            <h1 style={{ fontWeight: 'bold' }}>Chat</h1>
+            <hr style={{margin:"0px !important"}}/>
             <div className="chat-history" style={{ minHeight: '200px' }}>
               {chatHistory && (
                 <ul style={{ padding: '12px' }}>
-                  {chatHistory.map(_a => (
-                    <li style={{ marginBottom: '10px' }}>{_a.message}</li>
-                  ))}
+                  {chatHistory.map(_a => {
+                    if (_a.user == chatId)
+                      return (
+                        <li>
+                          <span style={{ fontWeight: 'bold' }}>You: </span>
+                          {_a.message}
+                        </li>
+                      );
+                    else
+                      return (
+                        <li>
+                          <span
+                            style={{
+                              fontWeight: 'bold',
+                              color: 'cornflowerblue',
+                            }}
+                          >
+                            Motodays:{' '}
+                          </span> 
+                          {_a.message}
+                        </li>
+                      );
+                  })}
                 </ul>
               )}
             </div>

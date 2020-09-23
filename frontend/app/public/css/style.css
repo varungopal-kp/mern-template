@@ -2990,3 +2990,8 @@ section.car-bike-pge .other li a {
   right: 0;
   bottom: 0;
 }
+
+.chat-history ul li {
+  margin-bottom: 15px;
+  width: 100%;
+}

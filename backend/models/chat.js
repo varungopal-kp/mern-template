@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var chatSchema = new mongoose.Schema({ 
     user: String,    
     chats: [], 
-    reply: String,    
+    time: String,    
       
 });
 

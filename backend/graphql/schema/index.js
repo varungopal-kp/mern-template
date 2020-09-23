@@ -21,6 +21,7 @@ type RootQuery {
 }
 type RootMutation {
     contactsAdd(params:String): Contact!
+    chatDelete(id:String): Chat!
   }
 
 schema {

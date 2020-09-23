@@ -30,10 +30,12 @@ module.exports = function (server) {
             },
           })
           .then((data) => {
+            if (!msg.chatId) {
             if (!newRooms.includes(user)) {
               newRooms.push(user);
               io.emit('newRoom', user);
-              console.log(newRooms);
+              
+            }
             }
           })
           .catch((error) => error);

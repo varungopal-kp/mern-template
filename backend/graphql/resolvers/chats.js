@@ -8,4 +8,12 @@ module.exports = {
         throw err;
       }
     },
+    chatDelete: async (parms) => {
+      const {id}=parms
+      try {
+        return await Chat.remove({_id:id});       
+      } catch (err) {
+        throw err;
+      }
+    },
 }
